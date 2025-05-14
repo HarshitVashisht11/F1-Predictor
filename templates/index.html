@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Formula 1 Race Winner Prediction</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/2554/2554976.png" type="image/png">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-image: url('https://images.unsplash.com/photo-1617195920950-1df81e41bd13?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+        }
+        
+        .navbar {
+            background-color: rgba(225, 6, 0, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .nav-logo {
+            height: 35px;
+            margin-right: 10px;
+        }
+        
+        .navbar-nav {
+            margin-left: 20px;
+        }
+        
+        .navbar .nav-item {
+            margin: 0 5px;
+        }
+        
+        .navbar .nav-link {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .navbar .nav-link:hover {
+            color: #fff;
+        }
+        
+        .container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .main-container {
+            backdrop-filter: blur(8px);
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+        }
+        
+        h1, h2, h3 {
+            color: #e10600;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card {
+            background-color: rgba(26, 26, 26, 0.8);
+            border: none;
+            margin-bottom: 2rem;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 35px rgba(225, 6, 0, 0.3);
+        }
+        
+        .card-header {
+            background-color: rgba(42, 42, 42, 0.8);
+            color: #fff;
+            font-weight: bold;
+            padding: 1rem;
+            border-bottom: 2px solid #e10600;
+            display: flex;
+            align-items: center;
+        }
+        
+        .form-label {
+            color: #eee;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+        
+        .form-icon {
+            margin-right: 8px;
+            width: 20px;
+            text-align: center;
+            color: #e10600;
+        }
+        
+        .form-control, .form-select {
+            background-color: rgba(42, 42, 42, 0.8);
+            border: 1px solid #444;
+            color: #fff;
+            padding: 12px;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            background-color: rgba(50, 50, 50, 0.9);
+            color: #fff;
+            border-color: #e10600;
+            box-shadow: 0 0 0 0.25rem rgba(225, 6, 0, 0.25);
+        }
+        
+        .btn-primary {
+            background-color: #e10600;
+            border-color: #e10600;
+            padding: 12px 20px;
+            text-transform: uppercase;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s;
+        }
+        
+        .btn-primary:hover, .btn-primary:focus {
+            background-color: #c00500;
+            border-color: #c00500;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(225, 6, 0, 0.4);
+        }
+        
+        .prediction-card {
+            background-color: rgba(26, 26, 26, 0.85);
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            margin-top: 2rem;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.3);
+            border-left: 5px solid #e10600;
+            transition: transform 0.3s;
+        }
+        
+        .prediction-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 30px rgba(225, 6, 0, 0.3);
+        }
+        
+        .prediction-badge {
+            position: absolute;
+            top: -15px;
+            left: 20px;
+            background-color: #e10600;
+            color: white;
+            padding: 0.5rem 1.2rem;
+            border-radius: 30px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(225, 6, 0, 0.4);
+        }
+        
+        .prediction-value {
+            font-size: 2.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin-bottom: 0.5rem;
+        }
+        
+        .probability-container {
+            margin-top: 20px;
+            background-color: rgba(50, 50, 50, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .probability-label {
+            font-size: 1rem;
+            color: #ccc;
+            margin-bottom: 5px;
+        }
+        
+        .probability-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .probability-bar {
+            height: 8px;
+            border-radius: 4px;
+            background: linear-gradient(to right, #e10600 var(--prob), #333 var(--prob));
+            margin: 10px 0;
+        }
+        
+        .win-high {
+            color: #2ecc71;
+        }
+        
+        .win-medium {
+            color: #f39c12;
+        }
+        
+        .win-low {
+            color: #e74c3c;
+        }
+        
+        .f1-logo {
+            height: 32px;
+            margin-right: 10px;
+        }
+        
+        .team-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 5px;
+        }
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            margin: 0 10px;
+        }
+        
+        .navbar-nav .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 15px;
+            }
+            
+            .prediction-value {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="https://www.formula1.com/etc/designs/fom-website/images/f1_logo.svg" alt="F1 Logo" class="nav-logo">
+                F1 Predictions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/">
+                            <i class="fa-solid fa-bolt me-1"></i>
+                            Single Prediction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/circuit_predictions">
+                            <i class="fa-solid fa-road me-1"></i>
+                            Circuit Analysis
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 offset-lg-2 main-container">
+                <h1 class="mb-4 text-center">Formula 1 Race Winner Prediction</h1>
+                <p class="lead mb-4 text-center">Enter race details below to predict the winner using our machine learning model trained on historical F1 data.</p>
+                <div class="card mb-4">
+                    <div class="card-header d-flex align-items-center">
+                        <i class="fa-solid fa-sliders me-2"></i> Prediction Parameters
+                    </div>
+                    <div class="card-body">
+                        <form method="POST">
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="race_year" class="form-label">
+                                        <i class="fa-solid fa-calendar form-icon"></i>Race Year:
+                                    </label>
+                                    <input type="number" class="form-control" id="race_year" name="race_year" value="2025" min="1950" max="2030" required>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="qualifying_position" class="form-label">
+                                        <i class="fa-solid fa-ranking-star form-icon"></i>Qualifying Position:
+                                    </label>
+                                    <input type="number" class="form-control" id="qualifying_position" name="qualifying_position" min="1" max="20" required>
+                                </div>
+                            </div>
+                            
+                            <div class="mb-3">
+                                <label for="circuit" class="form-label">
+                                    <i class="fa-solid fa-road form-icon"></i>Circuit:
+                                </label>
+                                <select class="form-select" id="circuit" name="circuit" required>
+                                    {% for circuit in circuits %}
+                                        <option value="{{ circuit }}">{{ circuit }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                            
+                            <div class="row mb-3">
+                                <div class="col-md-6">
+                                    <label for="driver" class="form-label">
+                                        <i class="fa-solid fa-user-helmet-safety form-icon"></i>Driver:
+                                    </label>
+                                    <select class="form-select" id="driver" name="driver" required>
+                                        {% for driver in drivers %}
+                                            <option value="{{ driver }}">{{ driver }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <label for="constructor" class="form-label">
+                                        <i class="fa-solid fa-car form-icon"></i>Constructor:
+                                    </label>
+                                    <select class="form-select" id="constructor" name="constructor" required>
+                                        {% for constructor in constructors %}
+                                            <option value="{{ constructor }}">{{ constructor }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="d-grid gap-2">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fa-solid fa-bolt me-2"></i>Generate Prediction
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                {% if prediction %}
+                <div class="prediction-card">
+                    <div class="prediction-badge">RESULT</div>
+                    <h3 class="mb-3">Race Outcome Prediction</h3>
+                    <p class="mb-1 text-light">Our model predicts:</p>
+                    <p class="prediction-value">{{ prediction }}</p>
+                    
+                    {% if win_probability is not none %}
+                    <div class="probability-container">
+                        <div class="probability-label">Win Probability:</div>
+                        {% if win_probability > 0.7 %}
+                            <div class="probability-value win-high">{{ (win_probability * 100)|round|int }}%</div>
+                        {% elif win_probability > 0.4 %}
+                            <div class="probability-value win-medium">{{ (win_probability * 100)|round|int }}%</div>
+                        {% else %}
+                            <div class="probability-value win-low">{{ (win_probability * 100)|round|int }}%</div>
+                        {% endif %}
+                        <div class="probability-bar" style="--prob: {{ (win_probability * 100)|round|int }}%"></div>
+                    </div>
+                    {% endif %}
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F1 2025 Circuit Predictions</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background-color: #0a0a0a;
+            color: #fff;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            background-blend-mode: overlay;
+        }
+        
+        .navbar {
+            background-color: rgba(225, 6, 0, 0.95) !important;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+        
+        .navbar-brand {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        
+        .nav-logo {
+            height: 35px;
+            margin-right: 10px;
+        }
+        
+        .navbar-nav {
+            margin-left: 20px;
+        }
+        
+        .navbar .nav-item {
+            margin: 0 5px;
+        }
+        
+        .navbar .nav-link {
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            padding: 10px 15px;
+            font-size: 0.9rem;
+            position: relative;
+            transition: all 0.3s;
+        }
+        
+        .navbar .nav-link:hover {
+            color: #fff;
+        }
+        
+        .container {
+            padding-top: 2rem;
+            padding-bottom: 2rem;
+        }
+        
+        .main-container {
+            backdrop-filter: blur(8px);
+            background-color: rgba(0, 0, 0, 0.7);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            margin-top: 20px;
+        }
+        
+        h1, h2, h3 {
+            color: #e10600;
+            font-weight: 700;
+            text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.3);
+        }
+        
+        .card {
+            background-color: rgba(26, 26, 26, 0.8);
+            border: none;
+            margin-bottom: 2rem;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.3);
+            height: 100%;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 35px rgba(225, 6, 0, 0.3);
+        }
+        
+        .card-header {
+            padding: 0; /* Remove padding for image */
+            border-bottom: 2px solid #e10600;
+        }
+        
+        .circuit-image {
+            height: 180px;
+            position: relative;
+            background-color: #1a1a1a;
+            overflow: hidden;
+            border-top-left-radius: 15px;
+            border-top-right-radius: 15px;
+            background-position: center;
+            background-size: cover;
+            background-repeat: no-repeat;
+        }
+        
+        /* Default circuit layout image if specific one not available */
+        .circuit-image::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-position: center;
+            background-size: 50px;
+            background-repeat: no-repeat;
+            opacity: 0.2;
+        }
+        
+        .circuit-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(rgba(0,0,0,0.1), rgba(0,0,0,0.8));
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+        }
+        
+        .circuit-name {
+            color: white;
+            font-size: 1.5rem;
+            font-weight: bold;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            padding: 1rem;
+        }
+        
+        .table {
+            color: #fff;
+            margin-bottom: 0;
+        }
+        
+        .table thead th {
+            background-color: rgba(42, 42, 42, 0.8);
+            border-bottom: 2px solid #e10600;
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            color: #ddd;
+            padding: 0.75rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+        
+        .table td {
+            border-color: rgba(51, 51, 51, 0.5);
+            padding: 0.75rem 1rem;
+            vertical-align: middle;
+        }
+        
+        .driver-row {
+            transition: all 0.3s;
+        }
+        
+        .driver-row:hover {
+            background-color: rgba(42, 42, 42, 0.7);
+        }
+        
+        .constructor-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-right: 8px;
+        }
+        
+        .mclaren { background-color: #FF8000; }
+        .red-bull-racing { background-color: #0600EF; }
+        .ferrari { background-color: #DC0000; }
+        .mercedes { background-color: #00D2BE; }
+        .aston-martin { background-color: #006F62; }
+        .alpine { background-color: #0090FF; }
+        .williams { background-color: #005AFF; }
+        .haas { background-color: #FFFFFF; border: 1px solid #333; }
+        .racing-bulls { background-color: #1E41FF; }
+        .kick-sauber { background-color: #00E701; }
+        
+        .win-chance {
+            font-weight: bold;
+            padding: 0.25rem 0.6rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            display: inline-block;
+            min-width: 65px;
+            text-align: center;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        
+        .win-high {
+            background-color: #2ecc71;
+            color: white;
+        }
+        
+        .win-medium {
+            background-color: #f39c12;
+            color: white;
+        }
+        
+        .win-low {
+            background-color: #e74c3c;
+            color: white;
+        }
+        
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: #aaa;
+            font-style: italic;
+        }
+        
+        .f1-logo {
+            height: 32px;
+            margin-right: 10px;
+        }
+        
+        .navbar-nav .nav-link {
+            position: relative;
+            margin: 0 10px;
+        }
+        
+        .navbar-nav .nav-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background-color: white;
+            border-radius: 2px;
+        }
+        
+        .circuit-flag {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 0.9rem;
+            backdrop-filter: blur(5px);
+        }
+        
+        .position-number {
+            display: inline-flex;
+            justify-content: center;
+            align-items: center;
+            width: 25px;
+            height: 25px;
+            border-radius: 50%;
+            background-color: rgba(225, 6, 0, 0.9);
+            color: white;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+        
+        .qualifying-badge {
+            display: inline-block;
+            background-color: rgba(50, 50, 50, 0.8);
+            color: white;
+            padding: 0.15rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.8rem;
+        }
+        
+        .probability-bar {
+            height: 5px;
+            width: 100%;
+            background-color: #333;
+            border-radius: 3px;
+            overflow: hidden;
+            margin-top: 3px;
+        }
+        
+        .probability-fill {
+            height: 100%;
+            background-color: #e10600;
+        }
+        
+        @media (max-width: 768px) {
+            .main-container {
+                padding: 15px;
+            }
+            
+            .circuit-image {
+                height: 120px;
+            }
+            
+            .circuit-name {
+                font-size: 1.3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark mb-4">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/">
+                <img src="https://www.formula1.com/etc/designs/fom-website/images/f1_logo.svg" alt="F1 Logo" class="nav-logo">
+                F1 Predictions
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/">
+                            <i class="fa-solid fa-bolt me-1"></i>
+                            Single Prediction
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="/circuit_predictions">
+                            <i class="fa-solid fa-road me-1"></i>
+                            Circuit Analysis
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="main-container">
+            <h1 class="mb-4 text-center">F1 2025 Season Circuit Predictions</h1>
+            <p class="lead mb-4 text-center">Predicted race winners for each circuit in the 2025 Formula 1 season based on our machine learning model.</p>
+            
+            <div class="row">
+                {% for circuit in circuits %}
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header p-0">
+                            <div class="circuit-image" data-circuit="{{ circuit.circuit }}">
+                                <div class="circuit-overlay">
+                                    <div class="circuit-name">{{ circuit.circuit }}</div>
+                                </div>
+                                <div class="circuit-flag">
+                                    <i class="fa-solid fa-map-location-dot me-2"></i>
+                                    {{ circuit.circuit }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            {% if circuit.results %}
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Driver</th>
+                                            <th>Team</th>
+                                            <th>Win Probability</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for result in circuit.results %}
+                                        <tr class="driver-row">
+                                            <td>
+                                                <span class="position-number">{{ loop.index }}</span>
+                                            </td>
+                                            <td>
+                                                {% set constructor_class = result.constructor|replace(' ', '-')|lower %}
+                                                <span class="constructor-dot {{ constructor_class }}"></span>
+                                                <strong>{{ result.driver }}</strong>
+                                                <div>
+                                                    <span class="qualifying-badge">
+                                                        <i class="fa-solid fa-stopwatch-20 me-1"></i>Q{{ result.qualifying }}
+                                                    </span>
+                                                </div>
+                                            </td>
+                                            <td>{{ result.constructor }}</td>
+                                            <td>
+                                                {% if result.win_probability %}
+                                                    {% if result.win_probability > 0.7 %}
+                                                        <span class="win-chance win-high">{{ (result.win_probability * 100)|round|int }}%</span>
+                                                    {% elif result.win_probability > 0.4 %}
+                                                        <span class="win-chance win-medium">{{ (result.win_probability * 100)|round|int }}%</span>
+                                                    {% else %}
+                                                        <span class="win-chance win-low">{{ (result.win_probability * 100)|round|int }}%</span>
+                                                    {% endif %}
+                                                    <div class="probability-bar">
+                                                        <div class="probability-fill" id="prob-{{circuit.circuit|replace(' ', '-')|lower}}-{{loop.index}}" data-width="{{ (result.win_probability * 100)|round|int }}"></div>
+                                                    </div>
+                                                {% else %}
+                                                    <span class="win-chance win-medium">Likely</span>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                            {% else %}
+                            <div class="no-results">
+                                <i class="fa-solid fa-triangle-exclamation me-2"></i>
+                                No predictions available for this circuit
+                            </div>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Fetch circuit images from our API and set up probability bars
+        document.addEventListener('DOMContentLoaded', function() {
+            // Load circuit images
+            document.querySelectorAll('.circuit-image').forEach(function(element) {
+                const circuitName = element.getAttribute('data-circuit');
+                if (circuitName) {
+                    // Fetch the image URL from our API
+                    fetch(`/circuit_image/${encodeURIComponent(circuitName)}`)
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.url) {
+                                element.style.backgroundImage = `url('${data.url}')`;
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error fetching circuit image:', error);
+                        });
+                }
+            });
+            
+            // Setup probability bars
+            document.querySelectorAll('.probability-fill').forEach(function(bar) {
+                const width = bar.getAttribute('data-width');
+                if (width) {
+                    bar.style.width = width + '%';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

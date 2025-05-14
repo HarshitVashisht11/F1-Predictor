@@ -1,0 +1,9 @@
+flask
+pandas
+numpy
+scikit-learn
+gunicorn
+requests
+python-dotenv
+matplotlib
+pillow
