@@ -1,2 +1,2 @@
 Live Preview
-https://f1-predictor.harshitvashisht.live
+https://f1predictor.harshitvashisht.live
